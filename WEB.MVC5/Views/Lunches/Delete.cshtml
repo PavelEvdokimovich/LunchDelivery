@@ -1,0 +1,23 @@
+﻿@model WEB.MVC5.Models.Lunch
+
+@{
+    ViewBag.Title = "Удаление обеда";
+}
+
+<h2>Удалить</h2>
+
+<h3>Вы действительно хотите удалить эту запись?</h3>
+<div>
+	<h4>Обед @Html.DisplayFor(model => model.Date) (@DateTimeFormatInfo.CurrentInfo.GetDayName(Model.Date.DayOfWeek))</h4>
+	<hr />
+	@using (Html.BeginForm())
+	{
+		@Html.AntiForgeryToken()
+
+		<div class="form-actions no-color">
+			<input type="submit" value="Удалить" class="btn btn-primary" /> |
+			@Html.ActionLink("Назад", "Index")
+		</div>
+	}
+</div>
+

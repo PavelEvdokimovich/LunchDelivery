@@ -1,0 +1,59 @@
+﻿@model IEnumerable<WEB.MVC5.Models.Lunch>
+
+@{
+	ViewBag.Title = "Актуальное меню";
+}
+
+<h2>Актуальное меню</h2>
+<h4>@Html.ActionLink("Оформить заказ", "Order", "Orders")</h4>
+
+@foreach (var item in Model)
+{
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">@Html.DisplayNameFor(model => model.Date): @Html.DisplayFor(modelItem => item.Date) - @DateTimeFormatInfo.CurrentInfo.GetDayName(item.Date.DayOfWeek)</h3>
+		</div>
+		<div class="panel-body">
+			<label>Меню:</label><br />
+			@Html.DisplayFor(modelItem => item.Salad.Name) (@Html.DisplayFor(modelItem => item.Salad.Description))
+			@for (int i = 0; i < item.Salad.Rating; i++)
+			{
+				<img class="" width="20" height="20" src="~/Content/img/star.png" />
+			}
+			<br />
+			@Html.DisplayFor(modelItem => item.Soup.Name)
+			@for (int i = 0; i < item.Soup.Rating; i++)
+			{
+				<img class="" width="20" height="20" src="~/Content/img/star.png" />
+			}
+			<br />
+			@Html.DisplayFor(modelItem => item.MeatDish.Name)
+			@for (int i = 0; i < item.MeatDish.Rating; i++)
+			{
+				<img class="" width="20" height="20" src="~/Content/img/star.png" />
+			}
+			<br />
+			@Html.DisplayFor(modelItem => item.Garnish.Name)
+			@for (int i = 0; i < item.Garnish.Rating; i++)
+			{
+				<img class="" width="20" height="20" src="~/Content/img/star.png" />
+			}
+			<br />
+			@Html.DisplayFor(modelItem => item.Bread.Name)
+			<hr />
+			<label>Стоимость:</label><br />
+			@Html.DisplayNameFor(model => model.PriceWithSoup) - @Html.DisplayFor(modelItem => item.PriceWithSoup)
+			<br />
+			@Html.DisplayNameFor(model => model.PriceWithoutSoup) - @Html.DisplayFor(modelItem => item.PriceWithoutSoup)
+		</div>
+		<div class="panel-footer">
+			<label>Общий рейтинг: </label>
+			@for (int i = 0; i < (item.Salad.Rating + item.Garnish.Rating + item.Soup.Rating + item.MeatDish.Rating) / 4; i++)
+			{
+				<img class="" width="20" height="20" src="~/Content/img/star.png" />
+			}
+		</div>
+	</div>
+}
+
+

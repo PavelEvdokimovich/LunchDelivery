@@ -1,0 +1,85 @@
+﻿@model IEnumerable<WEB.MVC5.Models.Order>
+
+@{
+    ViewBag.Title = "Мои заказы";
+}
+
+<h2>Мои заказы</h2>
+<h4>@Html.ActionLink("Оформить заказ", "Order", "Orders")</h4>
+@if (Model.LongCount() == 0)
+{
+	<h3>В данный момент актуальных заказов нет.</h3>
+}
+
+@foreach (var item in Model)
+{
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h2 class="panel-title">@item.Lunch.Date.ToShortDateString() - @DateTimeFormatInfo.CurrentInfo.GetDayName(item.Lunch.Date.DayOfWeek)</h2>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-9">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							Меню
+						</div>
+						<div class="panel-body">
+							<table class="table">
+								<tr>
+									<td>@Html.DisplayFor(modelItem => item.Lunch.Salad.Name) (@Html.DisplayFor(modelItem => item.Lunch.Salad.Description))</td>
+									<td>@Html.DisplayFor(modelItem => item.Lunch.Salad.Weight)</td>
+								</tr>
+								<tr>
+									@if (item.WithoutSoup == false)
+									{
+										<td>@Html.DisplayFor(modelItem => item.Lunch.Soup.Name)</td>
+										<td>@Html.DisplayFor(modelItem => item.Lunch.Soup.Weight)</td>
+									}
+									else
+									{
+										<td></td>
+										<td></td>
+									}
+								</tr>
+								<tr>
+									<td>@Html.DisplayFor(modelItem => item.Lunch.MeatDish.Name)</td>
+									<td>@Html.DisplayFor(modelItem => item.Lunch.MeatDish.Weight)</td>
+								</tr>
+								<tr>
+									<td>@Html.DisplayFor(modelItem => item.Lunch.Garnish.Name)</td>
+									<td>@Html.DisplayFor(modelItem => item.Lunch.Garnish.Weight)</td>
+								</tr>
+								<tr>
+									<td>@Html.DisplayFor(modelItem => item.Lunch.Bread.Name)</td>
+									<td>@Html.DisplayFor(modelItem => item.Lunch.Bread.Weight)</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="panel panel-info">
+						<div class="panel-heading text-center">
+							Стоимость обеда
+						</div>
+						<div class="panel-body text-center">
+							@if (item.WithoutSoup == false)
+							{
+								<h3>@Html.DisplayFor(modelItem => item.Lunch.PriceWithSoup)</h3>
+							}
+							else
+							{
+								<h3>@Html.DisplayFor(modelItem => item.Lunch.PriceWithoutSoup)</h3>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer text-right">
+			<a href="@Url.Action("DeleteOrder", "Orders", new { id = item.OrderId })" title="Удалить заказ"><img class="img-circle" width="50" height="50" src="~/Content/img/delete.png" /> Удалить</a>
+		</div>
+	</div>
+}
+

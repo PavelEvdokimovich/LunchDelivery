@@ -1,0 +1,41 @@
+﻿@model IEnumerable<WEB.MVC5.Models.AllOrdersViewModel>
+
+@{
+	ViewBag.Title = "Актуальные заказы";
+}
+
+<h2>Список актуальных заказов</h2>
+@if (Model.LongCount() == 0)
+{
+	<h3>В данный момент актуальных заказов нет.</h3>
+}
+@foreach (var item in Model)
+{
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h2 class="panel-title">@item.Date.ToShortDateString() - @DateTimeFormatInfo.CurrentInfo.GetDayName(item.Date.DayOfWeek)</h2>
+		</div>
+		<div class="panel-body">
+			<h4>Количество полных обедов: @item.QuantityWithSoup</h4>
+			<h4>Количество обедов без первого: @item.QuantityWithoutSoup</h4>
+			@if (item.Pay >= 170000)
+			{
+				<h4>Сумма к оплате: @item.Pay.ToString("0,0.00", CultureInfo.InvariantCulture) руб.</h4>
+			}
+			else
+				if (item.Pay >= 100000)
+				{
+					<h4>Сумма к оплате: @item.Pay.ToString("0,0.00", CultureInfo.InvariantCulture) руб.</h4>
+					<h4>Сумма доставки: 20,000 руб.</h4>
+				}
+				else
+				{
+					<h4>Сумма к оплате: @item.Pay.ToString("0,0.00", CultureInfo.InvariantCulture) руб.</h4>
+					<h3 class="text-danger">Сумма заказа не превышает 100,000.00 руб. Заказ не может быть обработан!</h3>
+				}
+		</div>
+		<div class="panel-footer">
+			<label>@Html.ActionLink("Подробнее...", "OrderDetailsByDate", new { date = item.Date })</label>
+		</div>
+	</div>
+}

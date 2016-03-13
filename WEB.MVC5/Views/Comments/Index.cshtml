@@ -1,0 +1,108 @@
+﻿@model IEnumerable<WEB.MVC5.Models.Comment>
+
+@{
+    ViewBag.Title = "Отзывы";
+}
+<ul class="nav nav-pills">
+	<li>@Html.ActionLink("Рейтинг салатов", "SaladRatings", "Comments")</li>
+	<li>@Html.ActionLink("Рейтинг супов", "SoupRatings", "Comments")</li>
+	<li>@Html.ActionLink("Рейтинг мясных блюд", "MeatDishRatings", "Comments")</li>
+	<li>@Html.ActionLink("Рейтинг гарниров", "GarnishRatings", "Comments")</li>
+</ul>
+<hr />
+
+<h2>Отзывы</h2>
+
+<p>
+    @Html.ActionLink("Добавить отзыв", "Create")
+</p>
+
+@foreach (var item in Model)
+{
+	<div>
+		<label>@item.Date.ToShortDateString()</label>
+		<label>@item.User.Name @item.User.LastName</label>
+	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h2 class="panel-title">@item.Lunch.Date.ToShortDateString() - @DateTimeFormatInfo.CurrentInfo.GetDayName(item.Lunch.Date.DayOfWeek)</h2>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							Салат: @item.Lunch.Salad.Name
+						</div>
+						<div class="panel-body">
+							Комментарий: @item.SaladComment
+						</div>
+						<div class="panel-footer">
+							@for (int i = 0; i < item.SaladRating; i++)
+							{
+								<img class="" width="20" height="20" src="~/Content/img/star.png" />
+							}
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							Суп: @item.Lunch.Soup.Name
+						</div>
+						<div class="panel-body">
+							Комментарий: @item.SoupComment
+						</div>
+						<div class="panel-footer">
+							@for (int i = 0; i < item.SoupRating; i++)
+							{
+								<img class="" width="20" height="20" src="~/Content/img/star.png" />
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							Мясное блюдо: @item.Lunch.MeatDish.Name
+						</div>
+						<div class="panel-body">
+							Комментарий: @item.MeatDishComment
+						</div>
+						<div class="panel-footer">
+							@for (int i = 0; i < item.MeatDishRating; i++)
+							{
+								<img class="" width="20" height="20" src="~/Content/img/star.png" />
+							}
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							Гарнир: @item.Lunch.Garnish.Name
+						</div>
+						<div class="panel-body">
+							Комментарий: @item.GarnishComment
+						</div>
+						<div class="panel-footer">
+							@for (int i = 0; i < item.GarnishRating; i++)
+							{
+								<img class="" width="20" height="20" src="~/Content/img/star.png" />
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer">
+			<label>Общая оценка: </label>
+			@for (int i = 0; i < (item.SaladRating + item.GarnishRating + item.SoupRating + item.MeatDishRating) / 4; i++)
+			{
+				<img class="" width="20" height="20" src="~/Content/img/star.png" />
+			}
+		</div>
+	</div>
+}

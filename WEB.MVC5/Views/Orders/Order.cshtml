@@ -1,0 +1,90 @@
+﻿@model List<WEB.MVC5.Models.OrderViewModel>
+
+@{
+	ViewBag.Title = "Оформление заказа";
+}
+
+<h2>Оформление заказа</h2>
+<p>Бесплатная доставка от 170 000 руб. Платная доставка 20 000 руб. при заказе от 100 000 руб.</p>
+<p>В случае платной доставки ее стоимость будет разделена между заказчиками и списана с личного счета.</p>
+<br />
+@if (Model.LongCount() != 0)
+{
+	using (Html.BeginForm())
+	{
+		for (int i = 0; i < Model.Count(); i++)
+		{
+			@Html.HiddenFor(model => model[i].Lunch.LunchId)
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">@Html.DisplayFor(model => model[i].Lunch.Date) - @DateTimeFormatInfo.CurrentInfo.GetDayName(Model[i].Lunch.Date.DayOfWeek)</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-9">
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									Меню
+								</div>
+								<div class="panel-body">
+									<table class="table table-hover">
+										<tr>
+											<td>@Html.DisplayFor(model => model[i].Lunch.Salad.Name) (@Html.DisplayFor(model => model[i].Lunch.Salad.Description))</td>
+											<td>@Html.DisplayFor(model => model[i].Lunch.Salad.Weight)</td>
+										</tr>
+										<tr>
+											<td>@Html.DisplayFor(model => model[i].Lunch.Soup.Name)</td>
+											<td>@Html.DisplayFor(model => model[i].Lunch.Soup.Weight)</td>
+										</tr>
+										<tr>
+											<td>@Html.DisplayFor(model => model[i].Lunch.MeatDish.Name)</td>
+											<td>@Html.DisplayFor(model => model[i].Lunch.MeatDish.Weight)</td>
+										</tr>
+										<tr>
+											<td>@Html.DisplayFor(model => model[i].Lunch.Garnish.Name)</td>
+											<td>@Html.DisplayFor(model => model[i].Lunch.Garnish.Weight)</td>
+										</tr>
+										<tr>
+											<td>@Html.DisplayFor(model => model[i].Lunch.Bread.Name)</td>
+											<td>@Html.DisplayFor(model => model[i].Lunch.Bread.Weight)</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="panel panel-info">
+								<div class="panel-heading text-center">
+									@Html.DisplayNameFor(model => model[i].Lunch.PriceWithSoup)
+								</div>
+								<div class="panel-body text-center">
+									<h3>@Html.DisplayFor(model => model[i].Lunch.PriceWithSoup)</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<div class="row">
+						<div class="col-md-6 text-left">
+							<h4>@Html.EditorFor(model => model[i].WithoutSoup) @Html.DisplayNameFor(model => model[i].WithoutSoup) <small>(Стоимость @Html.DisplayFor(model => model[i].Lunch.PriceWithoutSoup))</small></h4>
+						</div>
+						<div class="col-md-6 text-right">
+							<h3>@Html.EditorFor(model => model[i].IsOrder) @Html.DisplayNameFor(model => model[i].IsOrder)</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+		<div class="form-group">
+			<div class="col-md-offset-11 col-md-1">
+				<input type="submit" value="Заказать" class="btn btn-primary" />
+			</div>
+		</div>
+	}
+}
+else
+{
+	<h3>В данный момент актуальных обедов нет. Попробуйте оформить заказ позже.</h3>
+}

@@ -1,0 +1,54 @@
+﻿@model IEnumerable<IGrouping<string, WEB.MVC5.Models.UserBalance>>
+
+@{
+    ViewBag.Title = "UsersBalance";
+}
+
+@Html.ActionLink("Назад", "UsersTotalBalance", "Balances")
+
+<h3>Журнал учета движения денежных средств пользователей</h3>
+
+@foreach (var item in Model)
+{
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title">@item.Key</h3>
+		</div>
+		<div class="panel-body">
+			<table class="table">
+				<tr>
+					<th>
+						Дата операции
+					</th>
+					<th>
+						Поступление на счет
+					</th>
+					<th>
+						Списание со счета
+					</th>
+					<th>
+						Назначение
+					</th>
+				</tr>
+				@foreach (var balance in item)
+				{
+					<tr>
+						<td>
+							@balance.Date
+						</td>
+						<td>
+							@balance.Income
+						</td>
+						<td>
+							@balance.Expence
+						</td>
+						<td>
+							@balance.Comment
+						</td>
+					</tr>
+				}
+			</table>
+		</div>
+	</div>
+}
+

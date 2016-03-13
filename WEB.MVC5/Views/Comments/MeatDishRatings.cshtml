@@ -1,0 +1,37 @@
+﻿@model IEnumerable<WEB.MVC5.Models.MeatDish>
+
+@{
+	ViewBag.Title = "Рейтинг мясных блюд";
+}
+
+<h2>Рейтинг мясных блюд</h2>
+
+<table class="table table-hover">
+	<tr class="info">
+		<th>
+			@Html.DisplayNameFor(model => model.Name)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Rating)
+		</th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Name)
+			</td>
+			<td>
+				@Math.Round(item.Rating, 1)
+				@for (int i = 0; i < item.Rating; i++)
+				{
+					<img class="" width="20" height="20" src="~/Content/img/star.png" />
+				}
+				@Html.ActionLink("Отзывы", "MeatDishCommentsHistory", new { id = item.MeatDishId })
+			</td>
+		</tr>
+	}
+</table>
+<a href="/Comments" title="Вернуться назад"><img class="img-circle" width="50" height="50" src="~/Content/img/back_blue.png" /></a>
+

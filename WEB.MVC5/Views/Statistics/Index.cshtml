@@ -1,0 +1,164 @@
+﻿@*model Array*@
+
+@{
+    ViewBag.Title = "Статистическая информация";
+}
+
+<h2>Статистика</h2>
+<script src="https://www.google.com/jsapi"></script>
+
+<script>
+   google.load("visualization", "1", {packages:["corechart"]});
+   google.setOnLoadCallback(drawChart);
+   function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+     ['Заказ', 'Количество'],
+     ['Заказы без первого', @ViewBag.OrdersWithoutSoup],
+     ['Заказы с первым', @ViewBag.OrdersWithSoup],
+    ]);
+    var options = {
+     title: 'Доли заказов с учетом супа и без него в общем количестве заказов',
+     is3D: true,
+    	slices: {
+            0: { color: 'green' },
+            1: { color: 'orange' }
+	}
+    };
+    var chart = new google.visualization.PieChart(document.getElementById('soup'));
+     chart.draw(data, options);
+   }
+</script>
+
+<div id="soup" style="width: 900px; height: 600px;"></div>
+<hr />
+
+<script type="text/javascript">
+	google.load("visualization", "1", { packages: ["corechart"] });
+	google.setOnLoadCallback(drawChart);
+
+    $(function () {
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            url: '@Url.Action("GetCountOrdersPerDay")',
+                data: '{}',
+                success: function (chartsdata) {
+
+                    var data = new google.visualization.DataTable();
+
+                    data.addColumn('string', 'Дата');
+                    data.addColumn('number', 'Количество заказов');
+
+                    for (var i = 0; i < chartsdata.length; i++)
+                    {
+                        data.addRow([chartsdata[i].Date, chartsdata[i].Count]);
+                    }
+
+                    var options = {
+                    	title: 'Количество заказов в день',
+                    	hAxis: { title: 'Дата' },
+                    	vAxis: { title: 'Количество' },
+                    	colors: ['#b87333']
+                    };
+                    var chart = new google.visualization.ColumnChart(document.getElementById('countOrders'));
+
+					chart.draw(data, options);
+                },
+                error: function () {
+                    alert("Error loading data! Please try again.");
+                }
+            });
+        })
+
+</script>
+
+<div id="countOrders" style="width: 900px; height: 600px;"></div>
+<hr />
+
+<script type="text/javascript">
+	google.load("visualization", "1", { packages: ["corechart"] });
+	google.setOnLoadCallback(drawChart);
+
+    $(function () {
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            url: '@Url.Action("GetCountOrdersWithAndWithoutSoupPerDay")',
+                data: '{}',
+                success: function (chartsdata) {
+
+                    var data = new google.visualization.DataTable();
+
+                    data.addColumn('string', 'Дата');
+                    data.addColumn('number', 'Количество заказов с супом');
+                    data.addColumn('number', 'Количество заказов без супа');
+
+                    for (var i = 0; i < chartsdata.length; i++)
+                    {
+                    	data.addRow([chartsdata[i].Date, chartsdata[i].CountWithSoup, chartsdata[i].CountWithoutSoup]);
+                    }
+
+                    var options = {
+                    	title: 'Количество заказов с супом и без него по датам',
+                     	hAxis: { title: 'Дата' },
+                     	vAxis: { title: 'Количество' },
+                    	colors: ['#1b9e77', '#d95f02']
+                    };
+                    var chart = new google.visualization.ColumnChart(document.getElementById('countOrdersWithAndWithoutSoup'));
+
+					chart.draw(data, options);
+                },
+                error: function () {
+                    alert("Error loading data! Please try again.");
+                }
+            });
+        })
+
+</script>
+
+<div id="countOrdersWithAndWithoutSoup" style="width: 900px; height: 600px;"></div>
+<hr />
+
+<script type="text/javascript">
+	google.load("visualization", "1", { packages: ["corechart"] });
+	google.setOnLoadCallback(drawChart);
+
+    $(function () {
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            url: '@Url.Action("GetMoneyPerDay")',
+                data: '{}',
+                success: function (chartsdata) {
+
+                    var data = new google.visualization.DataTable();
+
+                    data.addColumn('string', 'Дата');
+                    data.addColumn('number', 'Сумма');
+
+                    for (var i = 0; i < chartsdata.length; i++)
+                    {
+                        data.addRow([chartsdata[i].Date, chartsdata[i].Sum]);
+                    }
+
+                    var options = {
+                    	title: 'Стоимость обеда (сумма всех заказов) в день',
+                    	hAxis: { title: 'Дата' },
+                    	vAxis: { title: 'Сумма' }
+                    };
+                    var chart = new google.visualization.ColumnChart(document.getElementById('countSum'));
+
+					chart.draw(data, options);
+                },
+                error: function () {
+                    alert("Error loading data! Please try again.");
+                }
+            });
+        })
+
+</script>
+
+<div id="countSum" style="width: 900px; height: 600px;"></div>

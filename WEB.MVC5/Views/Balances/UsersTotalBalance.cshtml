@@ -1,0 +1,42 @@
+﻿@model IEnumerable<WEB.MVC5.Models.UserTotalBalance>
+
+@{
+	ViewBag.Title = "Касса";
+}
+@*Html.ActionLink("Журнал учета движения денежных средств пользователей", "UsersBalance", "Balances")*@
+
+<h3>Остаток денежных средств в кассе: <b>@ViewBag.Cashbox руб.</b></h3>
+<br />
+
+@foreach (var item in Model)
+{
+	if (@item.TotalBalance == @item.UserBalance)
+	{
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h2 class="panel-title">@item.Name</h2>
+			</div>
+			<div class="panel-body">
+				<h4>Баланс счета составляет: @item.TotalBalance.ToString("0,0.00", CultureInfo.InvariantCulture) руб.</h4>
+			</div>
+			<div class="panel-footer">
+				<label> @Html.ActionLink("Просмотреть историю баланса", "UserBalanceHistory", new { id = @item.UserId })</label>
+			</div>
+		</div>
+	}
+	else
+	{
+		<div class="panel panel-danger">
+			<div class="panel-heading">
+				<h2 class="panel-title">@item.Name</h2>
+			</div>
+			<div class="panel-body">
+				<h4>Баланс счета по журналу кассы составляет: @item.TotalBalance.ToString("0,0.00", CultureInfo.InvariantCulture) руб.</h4>
+				<h4>Баланс счета по карточке пользователя составляет: @item.UserBalance.ToString("0,0.00", CultureInfo.InvariantCulture) руб.</h4>
+			</div>
+			<div class="panel-footer">
+				<label> @Html.ActionLink("Просмотреть историю баланса", "UserBalanceHistory", new { id = @item.UserId })</label>
+			</div>
+		</div>
+	}
+}

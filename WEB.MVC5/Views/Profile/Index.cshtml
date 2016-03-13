@@ -1,0 +1,29 @@
+﻿@model WEB.MVC5.Models.Profile
+
+@{
+    ViewBag.Title = "Мой профиль";
+}
+
+<h2>Профиль</h2>
+<div class="row">
+	<div class="col-md-3">
+		@if (Model.PhotoData != null)
+		{
+			<div class="pull-left" style="margin-right: 10px">
+				<img class="img-thumbnail" width="150" height="150" src="@Url.Action("GetPhoto", "Profile", new { Model.UserId })" />
+			</div>
+		}
+	</div>
+	<div class="col-md-9">
+		<h4>Основная информация</h4>
+		<p>@Html.ActionLink("Редактировать", "Edit", new { id = Model.UserId })</p>
+		<h3>@Html.DisplayFor(model => model.Name) @Html.DisplayFor(model => model.LastName) </h3>
+		<hr />
+		<p><b>Номер телефона</b></p>
+		<p>@Html.DisplayFor(model => model.Phone)</p>
+		<p><b>Email</b></p>
+		<p>@Html.DisplayFor(model => model.Email)</p>
+		<p><b>@Html.ActionLink("Баланс счета", "MyBalance", "Balances")</b></p>
+		<p>@Html.DisplayFor(model => model.Balance)</p>
+	</div>
+</div>

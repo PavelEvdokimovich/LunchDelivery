@@ -1,0 +1,66 @@
+﻿@model IEnumerable<WEB.MVC5.Models.Lunch>
+
+@{
+    ViewBag.Title = "Список обедов";
+}
+<ul class="nav nav-pills">
+	<li>@Html.ActionLink("Салаты", "Index", "Salads")</li>
+	<li>@Html.ActionLink("Супы", "Index", "Soups")</li>
+	<li>@Html.ActionLink("Мясные блюда", "Index", "MeatDishes")</li>
+	<li>@Html.ActionLink("Гарниры", "Index", "Garnishes")</li>
+	<li>@Html.ActionLink("Хлеб", "Index", "Breads")</li>
+</ul>
+<hr />
+<h2>Список обедов</h2>
+	<p>@Html.ActionLink("Создать обед", "Create")</p>
+	<table class="table table-hover">
+		<tr class="info">
+			<th>
+				@Html.DisplayNameFor(model => model.Date)
+			</th>
+			<th>
+				Меню
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PriceWithSoup)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PriceWithoutSoup)
+			</th>
+			<th></th>
+		</tr>
+
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Date)
+					<br />
+					@DateTimeFormatInfo.CurrentInfo.GetDayName(item.Date.DayOfWeek)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Salad.Name)
+					<br />
+					@Html.DisplayFor(modelItem => item.Soup.Name)
+					<br />
+					@Html.DisplayFor(modelItem => item.MeatDish.Name)
+					<br />
+					@Html.DisplayFor(modelItem => item.Garnish.Name)
+					<br />
+					@Html.DisplayFor(modelItem => item.Bread.Name)
+					<br />
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.PriceWithSoup)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.PriceWithoutSoup)
+				</td>
+				<td>
+					@Html.ActionLink("Редактировать", "Edit", new { id = item.LunchId })<br />
+					@Html.ActionLink("Удалить", "Delete", new { id = item.LunchId })
+				</td>
+			</tr>
+		}
+
+	</table>

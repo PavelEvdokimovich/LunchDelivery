@@ -1,0 +1,75 @@
+﻿@model WEB.MVC5.Models.AddBalanceToUser
+@{
+	ViewBag.Title = "Поделиться балансом";
+}
+
+<h2>Поделиться балансом</h2>
+
+<div class="row">
+	<div class="col-md-4">
+		<div class="panel panel-primary">
+			<div class="panel-heading text-center">
+				<h3 class="panel-title">@ViewBag.CurrentUser.Name @ViewBag.CurrentUser.LastName</h3>
+			</div>
+			<div class="panel-body text-center">
+				@if (@ViewBag.CurrentUser.PhotoData != null)
+				{
+					<div class="" style="margin-right: 0px">
+						<img class="img-thumbnail" width="100" height="100" src="@Url.Action("GetPhoto", "Profile", new { @ViewBag.CurrentUser.UserId })" />
+					</div>
+				}
+			</div>
+			<div class="panel-footer text-center">
+				<label> Баланс счета: @ViewBag.CurrentUser.Balance.ToString("0,0.00", CultureInfo.InvariantCulture) руб.</label>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4 text-center">
+		<div class="" style="margin-right: 0px">
+			<img class="img-thumbnail" width="250" height="250" src="~/Content/img/CoinTransfer.jpg" />
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="panel panel-primary">
+
+			<div class="panel-heading text-center">
+				<h3 class="panel-title">@Model.Name @Model.LastName</h3>
+			</div>
+			<div class="panel-body text-center">
+				<div class="" style="margin-right: 0px">
+					<img class="img-thumbnail" width="100" height="100" src="@Url.Action("GetPhoto", "Profile", new { @Model.UserId })" />
+				</div>
+			</div>
+			<div class="panel-footer text-center">
+				<label> </label>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		@Html.HiddenFor(model => model.UserId)
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.AddBalance, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.AddBalance, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.AddBalance, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="Перевести" class="btn btn-primary" />
+			</div>
+		</div>
+	</div>
+}
+
+<a href="/Balances/UsersList" title="Вернуться назад"><img class="img-circle" width="50" height="50" src="~/Content/img/back_blue.png" /></a>

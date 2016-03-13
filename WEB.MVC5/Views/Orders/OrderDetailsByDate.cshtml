@@ -1,0 +1,81 @@
+﻿@model IEnumerable<WEB.MVC5.Models.Order>
+
+@{
+	ViewBag.Title = "Подробности заказа";
+}
+
+<h3>Подробности заказа</h3>
+
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h2 class="panel-title">@ViewBag.Date.ToShortDateString() - @DateTimeFormatInfo.CurrentInfo.GetDayName(ViewBag.Date.DayOfWeek)</h2>
+	</div>
+	<div class="panel-body">
+		<table class="table">
+			<tr>
+				<th class="text-center">
+					<label>ФИО</label>
+				</th>
+				<th class="text-center">
+					<label>Полный обед</label>
+				</th>
+				<th class="text-center">
+					<label>Без первого</label>
+				</th>
+			</tr>
+
+			@foreach (var item in Model)
+			{
+				<tr class="text-left">
+					<td>
+						@Html.DisplayFor(modelItem => item.User.LastName) @Html.DisplayFor(modelItem => item.User.Name)
+					</td>
+					<td>
+						@if (item.WithoutSoup == false)
+						{
+							<div class="text-center" style="margin-right: 10px">
+								<img class="img-circle" width="40" height="40" src="~/Content/img/blue-round-checkmark.png" />
+							</div>
+						}
+					</td>
+					<td>
+						@if (item.WithoutSoup == true)
+						{
+							<div class="text-center" style="margin-right: 10px">
+								<img class="img-circle" width="40" height="40" src="~/Content/img/blue-round-checkmark.png" />
+							</div>
+						}
+					</td>
+				</tr>
+			}
+
+		</table>
+	</div>
+	<div class="panel-footer">
+		<h4>Количество полных обедов: @ViewBag.QuantityWithSoup</h4>
+		<h4>Количество обедов без первого: @ViewBag.QuantityWithoutSoup</h4>
+		@if (ViewBag.Pay >= 170000)
+			{
+			<h4>Сумма к оплате: @ViewBag.Pay.ToString("0,0.00", CultureInfo.InvariantCulture) руб.</h4>
+		}
+		else if (@ViewBag.Pay >= 100000)
+			{
+				<h4>Сумма к оплате: @ViewBag.Pay.ToString("0,0.00", CultureInfo.InvariantCulture) руб.</h4>
+				<h4>Сумма доставки: 20,000 руб.</h4>
+			}
+			else
+			{
+				<h4>Сумма к оплате: @ViewBag.Pay.ToString("0,0.00", CultureInfo.InvariantCulture) руб.</h4>
+				<h3 class="text-danger">Сумма заказа не превышает 100,000.00 руб. Заказ не может быть обработан!</h3>
+			}
+	</div>
+</div>
+
+<div class="text-right">
+	<img class="img-circle" width="50" height="50" src="~/Content/img/Check.gif" />
+	<label>@Html.ActionLink("Подтвердить получение", "ConfirmOrderReceipt", new { date = @ViewBag.Date })</label>
+</div>
+<a href="/Orders/AllOrders" title="Вернуться назад"><img class="img-circle" width="50" height="50" src="~/Content/img/back_blue.png" /></a>
+
+
+

@@ -1,0 +1,26 @@
+﻿@model IEnumerable<WEB.MVC5.Models.Comment>
+
+@{
+	ViewBag.Title = "Все отзывы";
+}
+
+<h2>Отзывы о @ViewBag.Name</h2>
+
+@foreach (var item in Model)
+{
+	<hr />
+	<label>Пользователь: </label> @item.User.Name@item.User.LastName
+	<br />
+	<small>Дата отзыва: </small>  @item.Date.ToShortDateString()
+	<br />
+	<label>Дата обеда: </label>  @item.Lunch.Date.ToShortDateString()
+	<br />
+	<label>Комментарий: </label> @item.SaladComment
+	<br />
+	<label>Оценка: </label>
+	for (int i = 0; i < item.SaladRating; i++)
+	{
+		<img class="" width="20" height="20" src="~/Content/img/star.png" />
+	}
+}
+

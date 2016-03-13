@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="~/Content/img/SiteLogo.png" type="image/png">
+	<title>@ViewBag.Title – Обеды с доставкой от chudo-pechka.by</title>
+	@Styles.Render("~/Content/css")
+	@**Styles.Render("~/Content/jqueryui")*@
+	@Scripts.Render("~/bundles/modernizr")
+
+	@**Styles.Render("~/Content/datepicker")
+		@Scripts.Render("~/bundles/datepicker")*@
+
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	@*<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>*@
+	<script src="~/Scripts//jquery-1.10.2.js"></script>
+	<script src="~/Scripts/MyScripts/jquery-ui.js"></script>
+	<script src="~/Scripts/MyScripts/jquery-ui-i18n.js"></script>
+
+	<script>
+		$(function () {
+			$("#datepicker").datepicker($.datepicker.regional['ru']);
+		});
+	</script>
+</head>
+
+<body>
+	<div class="navbar navbar-default navbar-fixed-top">
+		@*navbar-static-top">*@
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/" title="На главную">
+					<img alt="Brand" height="30" src="~/Content/img/logo.png">
+				</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					@if (Request.IsAuthenticated)
+					{
+						if (HttpContext.Current.User.IsInRole("admin"))
+						{
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img height="30" src="~/Content/img/admin.png" title="Меню администратора" /> Администратор<span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li>@Html.ActionLink("Обеды", "Index", "Lunches")</li>
+									<li role="separator" class="divider"></li>
+									<li>@Html.ActionLink("Пользователи", "Index", "Users")</li>
+									<li role="separator" class="divider"></li>
+									<li>@Html.ActionLink("Касса", "UsersTotalBalance", "Balances")</li>
+									<li role="separator" class="divider"></li>
+									<li>@Html.ActionLink("Актуальные заказы", "AllOrders", "Orders")</li>
+									<li role="separator" class="divider"></li>
+									<li>@Html.ActionLink("Статистика", "Index", "Statistics")</li>
+								</ul>
+							</li>
+						}
+						if (HttpContext.Current.User.IsInRole("user"))
+						{
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img height="30" src="~/Content/img/razdel.png" title="Меню пользователя" /> Разделы<span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li>@Html.ActionLink("Мой Профиль", "Index", "Profile")</li>
+									<li role="separator" class="divider"></li>
+									<li>@Html.ActionLink("Баланс счета", "MyBalance", "Balances")</li>
+									<li role="separator" class="divider"></li>
+									<li>@Html.ActionLink("Актуальное меню", "ActualLunches", "Lunches")</li>
+									<li role="separator" class="divider"></li>
+									<li>@Html.ActionLink("Заказать", "Order", "Orders")</li>
+									<li role="separator" class="divider"></li>
+									<li>@Html.ActionLink("Мои заказы", "MyOrders", "Orders")</li>
+									<li role="separator" class="divider"></li>
+									<li>@Html.ActionLink("Отзывы", "Index", "Comments")</li>
+								</ul>
+							</li>
+						}
+					}
+					<li><a href="@Url.Action("About", "Home")" title="О программе"><img height="30" src="~/Content/img/info.png" /> О программе</a></li>
+					<li><a href="@Url.Action("Contact", "Home")" title="Контакты"><img height="30" src="~/Content/img/contact_us.gif" /> Контакты</a></li>
+
+				</ul>
+				@Html.Partial("_LoginPartial")
+			</div>
+		</div>
+	</div>
+	<br />
+	<div class="container body-content">
+		@if (Request.IsAuthenticated && !HttpContext.Current.User.IsInRole("user") && !HttpContext.Current.User.IsInRole("admin"))
+		{
+			<row>
+				<div class="col-md-2 text-center">
+					<p>Ваша учетная запись заблокирована!</p>
+					<div class="text-center" style="margin-right: 0px">
+						<img class="img-circle" width="150" height="150" src="~/Content/img/Stop.jpg" />
+					</div>
+					<p>Для возобновления работы в системе обратитесь к @Html.ActionLink("администратору", "Contact", "Home").</p>
+				</div>
+				<div class="col-md-10">
+					@RenderBody()
+				</div>
+			</row>
+		}
+		else
+		{
+			@RenderBody()
+		}
+		<hr />
+		<footer>
+			<p>&copy; @DateTime.Now.Year – Обеды с доставкой от ресторана ЗАО "Днепр" (chudo-pechka.by)</p>
+		</footer>
+	</div>
+
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/bootstrap")
+	@*Scripts.Render("~/bundles/jqueryui")*@
+	<script>
+		$(function () {
+			$(".datepicker").datepicker($.datepicker.regional['ru']);
+		});
+	</script>
+	@RenderSection("scripts", required: false)
+
+</body>
+</html>

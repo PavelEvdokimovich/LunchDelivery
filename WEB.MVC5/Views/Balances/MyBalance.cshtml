@@ -1,0 +1,88 @@
+﻿@model IEnumerable<WEB.MVC5.Models.Balance>
+
+@{
+	ViewBag.Title = "Журнал учета баланса пользователя";
+}
+
+<h3>Журнал учета баланса пользователя:</h3>
+<row>
+	@if (ViewBag.User.Balance == ViewBag.Result)
+	{
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">@ViewBag.User.LastName @ViewBag.User.Name - @ViewBag.User.Email</h3>
+				</div>
+				<div class="panel-body">
+					<h4>Баланс счета составляет: @ViewBag.User.Balance.ToString("0,0.00", CultureInfo.InvariantCulture) руб.</h4>
+					<div class="text-right">
+						@Html.ActionLink("Поделиться балансом", "UsersList", "Balances")
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+	else
+	{
+		<div class="col-md-2">
+			<div class="text-center" style="margin-right: 0px">
+				<img class="img-circle" width="100" height="100" src="~/Content/img/No.png" />
+			</div>
+			<div class="text-danger text-center">
+				<p>Обратитесь к @Html.ActionLink("администратору", "Contact", "Home").</p>
+			</div>
+		</div>
+
+		<div class="col-md-10">
+			<div class="panel panel-danger">
+				<div class="panel-heading">
+					<h3 class="panel-title">@ViewBag.User.LastName @ViewBag.User.Name - @ViewBag.User.Email</h3>
+				</div>
+				<div class="panel-body">
+					<h4>Баланс счета по журналу кассы составляет: @ViewBag.Result.ToString("0,0.00", CultureInfo.InvariantCulture) руб.</h4>
+					<h4>Баланс счета по карточке пользователя составляет: @ViewBag.User.Balance.ToString("0,0.00", CultureInfo.InvariantCulture) руб.</h4>
+					<div class="text-right">
+						@Html.ActionLink("Поделиться балансом", "UsersList", "Balances")
+					</div>
+				</div>
+			</div>
+		</div>
+	}	
+</row>
+
+<table class="table table-hover">
+	<tr class="info">
+		<th>
+			@Html.DisplayNameFor(model => model.Date)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Income)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Expence)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Comment)
+		</th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Date)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Income)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Expence)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Comment)
+			</td>
+		</tr>
+	}
+
+</table>
+

@@ -1,0 +1,76 @@
+﻿@model IEnumerable<WEB.MVC5.Models.Balance>
+
+@{
+	ViewBag.Title = "История баланса пользователя";
+}
+<br />
+<row>
+	@if (ViewBag.User.Balance == ViewBag.Result)
+	{
+		<div class="col-md-1">
+			<a href="/Balances/UsersTotalBalance" title="Вернуться назад"><img class="img-circle" width="50" height="50" src="~/Content/img/back_blue.png" /></a>
+		</div>
+		<div class="col-md-11">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">@ViewBag.User.LastName @ViewBag.User.Name - @ViewBag.User.Email</h3>
+				</div>
+				<div class="panel-body">
+					<h4>Баланс счета составляет: @ViewBag.User.Balance.ToString("0,0.00", CultureInfo.InvariantCulture) руб.</h4>
+				</div>
+			</div>
+		</div>
+	}
+	else
+	{
+		<div class="col-md-1">
+			<a href="/Balances/UsersTotalBalance" title="Вернуться назад"><img class="img-circle" width="50" height="50" src="~/Content/img/back_blue.png" /></a>
+		</div>
+		<div class="col-md-11">
+			<div class="panel panel-danger">
+				<div class="panel-heading">
+					<h3 class="panel-title">@ViewBag.User.LastName @ViewBag.User.Name - @ViewBag.User.Email</h3>
+				</div>
+				<div class="panel-body">
+					<h4>Баланс счета по журналу кассы составляет: @ViewBag.Result.ToString("0,0.00", CultureInfo.InvariantCulture) руб.</h4>
+					<h4>Баланс счета по карточке пользователя составляет: @ViewBag.User.Balance.ToString("0,0.00", CultureInfo.InvariantCulture) руб.</h4>
+				</div>
+			</div>
+		</div>
+	}
+</row>
+
+<table class="table table-hover">
+	<tr class="info">
+		<th>
+			@Html.DisplayNameFor(model => model.Date)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Income)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Expence)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Comment)
+		</th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Date)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Income)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Expence)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Comment)
+			</td>
+		</tr>
+	}
+</table>

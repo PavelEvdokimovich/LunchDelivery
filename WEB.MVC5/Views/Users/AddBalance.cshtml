@@ -1,0 +1,34 @@
+﻿@model WEB.MVC5.Models.AddBalanceToUser
+@{
+    ViewBag.Title = "Увеличение баланса";
+}
+
+<h2>Увеличение баланса</h2>
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		<h4>Пользователь: @Model.Name @Model.LastName</h4>
+		<h4>Адрес электронной почты: @Model.Email</h4>
+		<hr />
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		@Html.HiddenFor(model => model.UserId)
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.AddBalance, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.AddBalance, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.AddBalance, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="Внести на счет" class="btn btn-primary" />
+			</div>
+		</div>
+	</div>
+}
+<a href="/Users" title="Вернуться назад"><img class="img-circle" width="50" height="50" src="~/Content/img/back_blue.png" /></a>
