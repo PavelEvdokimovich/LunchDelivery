@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WEB.MVC5", "WEB.MVC5\WEB.MVC5.csproj", "{50AB32EC-8034-470D-8FC0-05136D64BD59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestLunchDelivery", "UnitTestLunchDelivery\UnitTestLunchDelivery.csproj", "{56C81DB2-24E6-4B33-9308-CAACD2A805F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LunchDelivery.Tests", "UnitTestLunchDelivery\LunchDelivery.Tests.csproj", "{56C81DB2-24E6-4B33-9308-CAACD2A805F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
