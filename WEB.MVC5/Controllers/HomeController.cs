@@ -12,12 +12,22 @@ namespace WEB.MVC5.Controllers
 {
 	public class HomeController : Controller
 	{
+		#region Private Fields
+
 		private IGenericRepository<User> repository = null;
+
+		#endregion
+
+		#region Constructors
+
+		public HomeController()	{}
 
 		public HomeController(IGenericRepository<User> repositoryUser)
 		{
 			this.repository = repositoryUser;
 		}
+
+		#endregion
 
 		public ActionResult Index()
 		{
