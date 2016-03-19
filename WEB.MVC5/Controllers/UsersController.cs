@@ -17,12 +17,20 @@ namespace WEB.MVC5.Controllers
 	[Authorize(Roles = "admin")]
 	public class UsersController : Controller
     {
+		#region Private Fields
+
 		private IGenericRepository<User> repository = null;
+
+		#endregion
+
+		#region Constructors
 
 		public UsersController(IGenericRepository<User> repositoryUser)
 		{
 			this.repository = repositoryUser;
 		}
+
+		#endregion
 
 		// GET: Users
 		public ActionResult Index()
